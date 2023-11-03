@@ -4,36 +4,58 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    public Projectile projectileScript;
     public int taregtHealth = 100;
-    public int ProjectileDamage = 20;
-    
+    public int damageBase = 20;
+    private int damageCal;
+
+
     void Start()
     {
+        damageBase = 20;
+        damageCal = damageCal + damageBase;
         taregtHealth = 100;
-        projectileScript.damage = ProjectileDamage;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            damageBase = 20;
+            damageCal = damageBase * 1;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            damageBase = 20;
+            damageCal = damageBase * 2;
+        }
+
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            damageBase = 20;
+            damageCal = damageBase * 3;
+        }
     }
 
     public void TargetHealthChecker()
     {
-        taregtHealth = taregtHealth - ProjectileDamage;
+        taregtHealth = taregtHealth - damageCal;
         //Destroy the Target after 1 second
         if (taregtHealth == 100)
             gameObject.GetComponent<Renderer>().material.color = Color.red;
         
-        if (taregtHealth == 80)
+        else if (taregtHealth == 80)
             gameObject.GetComponent<Renderer>().material.color = Color.yellow;
 
-        if (taregtHealth == 60)
+        else if (taregtHealth == 60)
             gameObject.GetComponent<Renderer>().material.color = Color.green;
 
-        if (taregtHealth == 40)
+        else if (taregtHealth == 40)
             gameObject.GetComponent<Renderer>().material.color = Color.cyan;
 
-        if (taregtHealth == 20)
+        else if (taregtHealth == 20)
             gameObject.GetComponent<Renderer>().material.color = Color.blue;
 
-        if (taregtHealth <= 0)
+        else if (taregtHealth <= 0)
         {
             gameObject.GetComponent<Renderer>().material.color = Color.gray;
             Destroy(this.gameObject, 1);

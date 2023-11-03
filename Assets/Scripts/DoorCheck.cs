@@ -5,59 +5,41 @@ using UnityEngine;
 public class DoorCheck : MonoBehaviour
 {
 
-    //[Header("Raycast Projectiles")]
-    //public GameObject hitMarker;
-    //public LineRenderer laser;
+    [Header("Raycast Projectiles")]
+    public LineRenderer laser;
+
+    public GameObject hitSparks;
 
 
-    //void Update()
-    //{
-    //    if (Input.GetButtonDown("E"))
-    //        FireRigidBody();
+    void Update()
+    {
+        if (Input.GetButtonDown("E"))
+            FireRaycast();
 
-    //}
+    }
 
+    void FireRaycast()
+    {
+        //Create the ray
+        Ray ray = new Ray(transform.position, transform.forward);
+        //Create a reference to hold the info on what we hit
+        RaycastHit hit;
 
-    //void FireRigidBody()
-    //{
-    //    //Create a refernce to hold our instantiated object
-    //    GameObject projectileInstance;
-    //    //Instantiate our projectile at this objects position and rotation
-    //    projectileInstance = Instantiate(SpikeBall, transform.position, transform.rotation);
-    //    //Add force to the projectile
-    //    projectileInstance.GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
-    //}
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            //Debug.Log("Ray hit " + hit.collider.name + " at point " + hit.point + " which was " + hit.distance + " units away");
+            laser.SetPosition(0, transform.position);
+            laser.SetPosition(1, hit.point);
+            StopAllCoroutines();
 
-    //void FireRaycast()
-    //{
-    //    //Create the ray
-    //    Ray ray = new Ray(transform.position, transform.forward);
-    //    //Create a reference to hold the info on what we hit
-    //    RaycastHit hit;
+            GameObject particles = Instantiate(hitSparks, hit.point, hit.transform.rotation);
+            Destroy(particles, 0.5f);
 
-    //    if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-    //    {
-    //        //Debug.Log("Ray hit " + hit.collider.name + " at point " + hit.point + " which was " + hit.distance + " units away");
-    //        laser.SetPosition(0, transform.position);
-    //        laser.SetPosition(1, hit.point);
-    //        StopAllCoroutines();
-    //        StartCoroutine(StopLaser());
+            if (hit.collider.CompareTag("Door"))
+            {
+                Destroy(hit.collider.gameObject);
+            }
+        }
+    }
 
-
-    //        GameObject particles = Instantiate(EnergyExplosion, hit.point, hit.transform.rotation);
-    //        Destroy(particles, 0.5f);
-
-    //        if (hit.collider.CompareTag("Target"))
-    //        {
-    //            Destroy(hit.collider.gameObject);
-    //        }
-    //    }
-    //}
-
-    //IEnumerator StopLaser()
-    //{
-    //    laser.gameObject.SetActive(true);
-    //    yield return new WaitForSeconds(0.4f);
-    //    laser.gameObject.SetActive(false);
-    //}
 }

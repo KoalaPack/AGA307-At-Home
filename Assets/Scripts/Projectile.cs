@@ -2,16 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Projectile : MonoBehaviour
 {
     public int damage = 20;
     public int projectileDestoryTime = 3;
+
+    public int baseDamage = 10;
     
 
     void Start()
     {
         Destroy(this.gameObject, 3);
+
     }
+
 
     private void OnCollisionEnter(Collision collision)
     {
