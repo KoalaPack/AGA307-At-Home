@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum GameState { Title, Playing, Paused, GameOver}
-public enum Difficulty { Easy, Medium, Hard}
 
+public enum GameState { Title, Playing, Paused, GameOver }
+public enum Difficulty { Easy, Medium, Hard }
 
 public class GameManager : Singleton<GameManager>
 {
@@ -12,10 +12,12 @@ public class GameManager : Singleton<GameManager>
     public int score = 0;
     int scoreMultiplier = 1;
 
-
-    private void Start()
+    public void Start()
     {
-        switch (difficulty)
+        DifficultEnum difficultEnum = new DifficultEnum();
+        Difficulty currentDifficultyValue = difficultEnum.currentDifficultyValue;
+
+        switch (currentDifficultyValue)
         {
             case Difficulty.Easy:
                 scoreMultiplier = 1;
@@ -29,6 +31,11 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public class DifficultEnum
+    {
+        public Difficulty currentDifficultyValue = Difficulty.Easy;
+    }
+
     public void AddScore(int _points)
     {
         score += _points * scoreMultiplier;
@@ -37,20 +44,19 @@ public class GameManager : Singleton<GameManager>
 
     void OnTargetHit(GameObject _enemy)
     {
-        int _score = _enemy.GetComponent<Enemy>().scoreBonus;
+        int _score = _enemy.GetComponent<Target>().scoreBonus;
         AddScore(_score);
     }
 
-    private void OnEnable()
+    public void OnEnable()
     {
-        Enemy.OnTargetHit += OnTargetHit;
-        Enemy.OnTargetDie += OnTargetHit;
+        Target.OnTargetHit += OnTargetHit;
+        Target.OnTargetDie += OnTargetHit;
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
-        Enemy.OnTargetHit -= OnTargetHit;
-        Enemy.OnTargetDie -= OnTargetHit;
+        Target.OnTargetHit -= OnTargetHit;
+        Target.OnTargetDie -= OnTargetHit;
     }
-
 }
