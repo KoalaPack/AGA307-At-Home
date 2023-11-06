@@ -14,11 +14,17 @@ public class Timer : Singleton<Timer>
     bool hasTimeLimit = false;
     float timeAfterKill = 5f;
 
+    public GameObject gameOverPanel;
+
     private void Start()
+    {
+
+    }
+
+    public void StartTime()
     {
         StartTimer(30, TimerDirection.CountDown);
     }
-
     void Update()
     {
         if (!isTiming)
@@ -31,6 +37,7 @@ public class Timer : Singleton<Timer>
             {
                 currentTime = 0;
                 StopTimer();
+                gameOverPanel.SetActive(true);
             }
         }
         else // TimerDirection.CountUp

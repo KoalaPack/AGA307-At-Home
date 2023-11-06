@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System;
+
 
 public class UIManager : Singleton<UIManager>
 {
@@ -17,8 +19,29 @@ public class UIManager : Singleton<UIManager>
 
     private GameManager gameManager;
 
+    public GameObject startMenu;
+    public GameObject EndMenu;
+    public GameObject InGamePanel;
+
     private void Start()
     {
+        startMenu.SetActive(true);
+        EndMenu.SetActive(false);
+        InGamePanel.SetActive(false );
+
+        spikeBall.SetActive(false);
+        atomBall.SetActive(false);
+        wheelBall.SetActive(false);
+
+
+    }
+
+    public void PlayGame()
+    {
+        startMenu.SetActive(false);
+        EndMenu.SetActive(false);
+        InGamePanel.SetActive(true);
+
         gameManager = GameObject.FindObjectOfType<GameManager>(); // Find the GameManager in the scene
         UpdateScore(0);
         UpdateTime(0);
@@ -28,10 +51,8 @@ public class UIManager : Singleton<UIManager>
         spikeBall.SetActive(true);
         atomBall.SetActive(false);
         wheelBall.SetActive(false);
-
-
+        Cursor.lockState = CursorLockMode.Locked;
     }
-
 
 
     public void Update()
@@ -111,4 +132,8 @@ public class UIManager : Singleton<UIManager>
     //    StartGame();
     //}
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
